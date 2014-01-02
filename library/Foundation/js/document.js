@@ -1,0 +1,1 @@
+jQuery(document).foundation({topbar: { sticky_class: 'found-sticky'}});
