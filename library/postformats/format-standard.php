@@ -16,14 +16,7 @@ if ( !defined('ABSPATH')) exit;
 
 						<div class="entry-content large-12 columns">
 					
-						<?php
-                            // insert featured image
-		                    if (is_single()) {
-                                cleanyetibasic_insert_featured_image();
-                            }         
-
-                            cleanyetibasic_content();
-                        ?>
+						<?php cleanyetibasic_content(); ?>
 
 						</div><!-- .entry-content -->
     					

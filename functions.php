@@ -171,5 +171,4 @@ function cleanyetibasic_numerical_link_pages( $args = array () )
     $echo and print $output . $after;
     return $output . $after;
 }
-
 ?>

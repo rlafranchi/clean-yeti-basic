@@ -22,13 +22,30 @@ function cleanyetibasic_sidebar() {
 	$show = apply_filters('cleanyetibasic_sidebar', $show);
 	
 	if ($show)
-    	echo '<div class="large-4 columns">' . "\n\n";
         get_sidebar() . "\n\n";
-        echo '</div>';
 	
 	return;
 } // end cleanyetibasic_sidebar
 
+/**
+ * Opening & closing element for sidebar
+ *
+ * Width may be changed by editing large-4 to large-*
+ * If changed, filter for cleanyetibasic_container must be applied
+ * Filters: cleanyetibasic_sidebar_open, cleanyetibasic_sidebar_close
+ */
+ 
+function cleanyetibasic_sidebar_open() {
+    $open = '<div class="large-4 columns">';
+    echo apply_filters('cleanyetibasic_sidebar_open', $open);
+}
+add_action( 'cleanyetibasic_abovemainasides', 'cleanyetibasic_sidebar_open', 1);
+
+function cleanyetibasic_sidebar_close() {
+    $close = '</div>';
+    echo apply_filters('cleanyetibasic_sidebar_close', $close);
+}
+add_action( 'cleanyetibasic_belowmainasides', 'cleanyetibasic_sidebar_close', 99);
 
 /* 
  * Main Aside Hooks

@@ -84,12 +84,38 @@ if (function_exists('childtheme_override_subsidiaries'))  {
 
 add_action('cleanyetibasic_footer', 'cleanyetibasic_subsidiaries', 10);
 
+/*
+* Copyright code, courtesy of Chip Bennett
+* http://wordpress.stackexchange.com/questions/14492/how-do-i-create-a-dynamically-updated-copyright-statement
+*/
+function cleanyetibasic_copyright() {
+    global $wpdb;
+    $copyright_dates = $wpdb->get_results("
+        SELECT
+            YEAR(min(post_date_gmt)) AS firstdate,
+            YEAR(max(post_date_gmt)) AS lastdate
+        FROM
+            $wpdb->posts
+        WHERE
+            post_status = 'publish'
+    ");
+    $output = '';
+    if($copyright_dates) {
+        $copyright = "&copy; " . $copyright_dates[0]->firstdate;
+            if($copyright_dates[0]->firstdate != $copyright_dates[0]->lastdate) {
+                $copyright .= '-' . $copyright_dates[0]->lastdate;
+            }
+        $output = $copyright;
+        $output .= ' ' . get_bloginfo( 'name' );
+    }
+    return apply_filters( 'cleanyetibasic_copyright', $output);
+}
 
 function cleanyetibasic_footer_menu_display() {
    ?>
 <div class="row">
 	<div class="large-4 columns">
-    	<p class="copyright">&copy; <?php echo bloginfo( 'name' ); ?> <?php echo date('Y'); ?></p>
+    	<p class="copyright"><?php echo cleanyetibasic_copyright(); ?></p>
    </div>
 	<div class="large-8 columns">
 	<?php 

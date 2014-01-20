@@ -204,23 +204,27 @@ function cleanyetibasic_sort_widgetized_areas($content) {
 }
 add_filter('cleanyetibasic_widgetized_areas', 'cleanyetibasic_sort_widgetized_areas', 100);
 
+/**
+ * Opening element for container
+ *
+ * Width may be changed by editing large-8 to large-*
+ * If changed, filter for cleanyetibasic_sidebar_open must be applied
+ * Filter: cleanyetibasic_container
+ */
+
 function cleanyetibasic_container() {
 	global $wp_customize;
 	if ( is_page_template( 'template-page-fullwidth.php' )) :
-?>
-		<div id="container" class="large-12 columns">
-<?php
+		$open = '<div id="container" class="large-12 columns">';
 	elseif (is_active_sidebar('primary-aside') || is_active_sidebar('secondary-aside') || ( method_exists ( $wp_customize,'is_preview' ) && $wp_customize->is_preview()  )):
-?>
-		<div id="container" class="large-8 columns">
-            <?php
-                else:
-            ?>
-        <div id="container" class="large-12 columns">
-			<?php
-                endif;	
+		$open = '<div id="container" class="large-8 columns">';
+    else:
+        $open = '<div id="container" class="large-12 columns">';
+    endif;
+    echo apply_filters( 'cleanyetibasic_container', $open );
 }
 add_action( 'cleanyetibasic_abovecontent', 'cleanyetibasic_container', 1 );
+
 /**
  * Displays the Primary Aside
  * 
