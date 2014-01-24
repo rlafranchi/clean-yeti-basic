@@ -137,10 +137,9 @@ function cleanyetibasic_show_pingback() {
 function cleanyetibasic_create_stylesheet() {
 	wp_register_style( 'cleanyetibasic-ubuntu', 'http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic' );
 	wp_register_style( 'cleanyetibasic-ubuntumono', 'http://fonts.googleapis.com/css?family=Ubuntu+Mono' );
-	wp_enqueue_style( 'cleanyetibasic-normalize', get_template_directory_uri() . '/library/Foundation/css/normalize.css' );
 	wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic.css' );
 	wp_enqueue_style( 'cleanyetibasic-postformaticons', get_template_directory_uri() . '/library/Foundation/icons/postformaticons.css');
-	wp_enqueue_style( 'cleanyetibasic-style', get_stylesheet_uri(), array( 'cleanyetibasic-ubuntu', 'cleanyetibasic-ubuntumono', 'cleanyetibasic-normalize', 'cleanyetibasic-foundation', 'cleanyetibasic-postformaticons' ) );
+	wp_enqueue_style( 'cleanyetibasic-style', get_stylesheet_uri(), array( 'cleanyetibasic-ubuntu', 'cleanyetibasic-ubuntumono', 'cleanyetibasic-foundation', 'cleanyetibasic-postformaticons' ) );
 
 }
 
@@ -251,18 +250,18 @@ class Topbar_Walker_Nav_Menu extends Walker_Nav_Menu {
 function cleanyetibasic_nav_menu_args() {
 	$args = array (
 		'theme_location'	=> apply_filters('cleanyetibasic_primary_menu_id', 'primary-menu'),
-		'menu'			=> '',
-		'container'		=> '',
+		'menu'				=> '',
+		'container'			=> '',
 		'container_class'	=> '',
 		'menu_class'		=> 'right',
 		'fallback_cb'		=> false,
-		'before'		=> '',
-		'after'			=> '',
+		'before'			=> '',
+		'after'				=> '',
 		'link_before'		=> '',
 		'link_after'		=> '',
-		'depth'			=> 0,
-		'walker'		=> new Topbar_Walker_Nav_Menu(),
-		'echo'			=> false
+		'depth'				=> 0,
+		'walker'			=> new Topbar_Walker_Nav_Menu(),
+		'echo'				=> false
 	);
 
 	return apply_filters('cleanyetibasic_nav_menu_args', $args);
