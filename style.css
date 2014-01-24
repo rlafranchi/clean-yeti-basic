@@ -1,8 +1,8 @@
 /*
 THEME NAME: Clean Yeti Basic
 THEME URI: http://cleanyetibasic.serenethemes.com
-DESCRIPTION: The ultimate in responsive themes, Clean Yeti Basic is a highly extensible, WordPress Theme based on Zurb's Foundation with a grid-based layout. Perfect for any blog and viewable on any device from mobile to desktop.
-VERSION: 2.0.3
+DESCRIPTION: The ultimate in responsive themes, Clean Yeti Basic is a highly extensible WordPress Theme that incorporates Foundation 5 by Zurb.  Perfect for any blog and viewable on any device from mobile to desktop.  Find out more about Foundation 5 here: <a href="http://foundation.zurb.com/docs.html" target="blank">foundation.zurb.com/docs.html</a>
+VERSION: 2.0.4
 TAGS: blue, black, white, right-sidebar, responsive-layout, custom-menu, featured-images, full-width-template, microformats, post-formats, threaded-comments
 AUTHOR: Serene Themes
 AUTHOR URI: http://www.serenethemes.com
@@ -15,9 +15,11 @@ This theme used Thematic Framework as a building block
 The Thematic Theme is copyright Ian Stewart - http://themeshaper.com
 
 This theme also uses the Foundation Framework by ZURB
-Foundation 4: http://foundation.zurb.com
+Foundation 5: http://foundation.zurb.com
 Copyright: 2013, ZURB
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
+
+Need support for Foundation 4? Revert to Clean Yeti Basic v1.1.0
 
 This work, like WordPress, is released under GNU General Public License, version 2 (GPL).
 .
