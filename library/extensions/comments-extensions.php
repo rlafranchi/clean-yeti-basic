@@ -212,25 +212,25 @@ function cleanyetibasic_commentbutton_text() {
  */
 function cleanyetibasic_comment_form_args( $post_id = null ) {
 	global $user_identity, $id;
-	
+
 	if ( null === $post_id )
           $post_id = $id;
       else
           $id = $post_id;
-	
+
 	$req = get_option( 'require_name_email' );
-	
+
 	$commenter = wp_get_current_commenter();
-	
+
 	$aria_req = ( $req ? " aria-required='true'" : '' );
-	
+
 	$fields =  array(
 		'author' => '<div id="form-section-author" class="form-section"><div class="form-label">' . '<label for="author">' . __( 'Name', 'cleanyetibasic' ) . '</label> ' . ( $req ? '<span class="required">' . _x( '*', 'denotes required field', 'cleanyetibasic' ) . '</span>' : '' ) . '</div>' . '<div class="form-input">' . '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' .  ' maxlength="20" tabindex="3"' . $aria_req . ' /></div></div><!-- #form-section-author .form-section -->',
 		'email'  => '<div id="form-section-email" class="form-section"><div class="form-label"><label for="email">' . __( 'Email', 'cleanyetibasic' ) . '</label> ' . ( $req ? '<span class="required">' . _x( '*', 'denotes required field', 'cleanyetibasic' ) . '</span>' : '' ) . '</div><div class="form-input">' . '<input id="email" name="email" type="email" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30" maxlength="50" tabindex="4"' . $aria_req . ' /></div></div><!-- #form-section-email .form-section -->',
 		'url'    => '<div id="form-section-url" class="form-section"><div class="form-label"><label for="url">' . __( 'Website', 'cleanyetibasic' ) . '</label></div>' . '<div class="form-input"><input id="url" name="url" type="url" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" maxlength="50" tabindex="5" /></div></div><!-- #form-section-url .form-section -->',
 	);
 
-	
+
 	$args = array(
 		'fields'               => apply_filters( 'comment_form_default_fields', $fields ),
 		'comment_field'        => '<div id="form-section-comment" class="form-section"><div class="form-label"><label for="comment">' . __(cleanyetibasic_commentbox_text(), 'cleanyetibasic') . '</label></div><div class="form-textarea"><textarea id="comment" name="comment" cols="45" rows="8" tabindex="6" aria-required="true"></textarea></div></div><!-- #form-section-comment .form-section -->',

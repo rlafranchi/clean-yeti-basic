@@ -99,6 +99,9 @@ function cleanyetibasic_theme_setup() {
 
 	// attachment extensions helps with displaying videos and images
 	require_once ( CLEANYETIBASIC_LIB . '/extensions/attachment-extensions.php' );
+	
+	// options page and settings
+	require_once ( CLEANYETIBASIC_LIB . '/extensions/theme-options.php' );
 
 	// Adds filters for the description/meta content in archive templates
 	add_filter( 'archive_meta', 'wptexturize' );
@@ -121,54 +124,4 @@ function cleanyetibasic_theme_setup() {
 }
 
 add_action('after_setup_theme', 'cleanyetibasic_theme_setup', 10);
-
-/**
- * Modification of wp_link_pages() with an extra element to highlight the current page.
- *
- * @param  array $args
- * @return void
- */
-function cleanyetibasic_numerical_link_pages( $args = array () )
-{
-    $defaults = array(
-        'before'      => '<p>' . __( 'Pages:', 'cleanyetibasic' )
-    ,   'after'       => '</p>'
-    ,   'link_before' => ''
-    ,   'link_after'  => ''
-    ,   'pagelink'    => '%'
-    ,   'echo'        => 1
-    );
-
-    $r = wp_parse_args( $args, $defaults );
-    $r = apply_filters( 'wp_link_pages_args', $r );
-    extract( $r, EXTR_SKIP );
-
-    global $page, $numpages, $multipage, $more, $pagenow;
-
-    if ( ! $multipage )
-    {
-        return;
-    }
-
-    $output = $before;
-
-    for ( $i = 1; $i < ( $numpages + 1 ); $i++ )
-    {
-        $j       = str_replace( '%', $i, $pagelink );
-        $output .= ' ';
-
-        if ( $i != $page || ( ! $more && 1 == $page ) )
-        {
-            $output .= "<li>" . _wp_link_page( $i ) . "{$link_before}{$j}{$link_after}</a></li>";
-        }
-        else
-        {   // highlight the current page
-            // not sure if we need $link_before and $link_after
-            $output .= "<li><span class=\"page-numbers current\">{$link_before}{$j}{$link_after}</span></li>";
-        }
-    }
-
-    $echo and print $output . $after;
-    return $output . $after;
-}
 ?>

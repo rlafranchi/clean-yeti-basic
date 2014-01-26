@@ -136,4 +136,53 @@ function cleanyetibasic_is_custom_post_type() {
  	return false;
  }
 
+/**
+ * Modification of wp_link_pages() with an extra element to highlight the current page.
+ *
+ * @param  array $args
+ * @return void
+ */
+function cleanyetibasic_numerical_link_pages( $args = array () )
+{
+    $defaults = array(
+        'before'      => '<p>' . __( 'Pages:', 'cleanyetibasic' )
+    ,   'after'       => '</p>'
+    ,   'link_before' => ''
+    ,   'link_after'  => ''
+    ,   'pagelink'    => '%'
+    ,   'echo'        => 1
+    );
+
+    $r = wp_parse_args( $args, $defaults );
+    $r = apply_filters( 'wp_link_pages_args', $r );
+    extract( $r, EXTR_SKIP );
+
+    global $page, $numpages, $multipage, $more, $pagenow;
+
+    if ( ! $multipage )
+    {
+        return;
+    }
+
+    $output = $before;
+
+    for ( $i = 1; $i < ( $numpages + 1 ); $i++ )
+    {
+        $j       = str_replace( '%', $i, $pagelink );
+        $output .= ' ';
+
+        if ( $i != $page || ( ! $more && 1 == $page ) )
+        {
+            $output .= "<li>" . _wp_link_page( $i ) . "{$link_before}{$j}{$link_after}</a></li>";
+        }
+        else
+        {   // highlight the current page
+            // not sure if we need $link_before and $link_after
+            $output .= "<li><span class=\"page-numbers current\">{$link_before}{$j}{$link_after}</span></li>";
+        }
+    }
+
+    $echo and print $output . $after;
+    return $output . $after;
+}
 ?>

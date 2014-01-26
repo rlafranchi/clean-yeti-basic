@@ -179,7 +179,7 @@ add_action('wp_enqueue_scripts','cleanyetibasic_head_scripts');
 
 /**
  * Return the default arguments for wp_page_menu()
- * 
+ *
  * This is used as fallback when the user has not created a custom nav menu in wordpress admin
  * 
  * Filter: cleanyetibasic_page_menu_args
@@ -461,9 +461,7 @@ if ( function_exists('childtheme_override_access') )  {
             </nav>
         </div><!-- #access -->          
 
-<?php 
-//if ( $displayheaderimages == 1){echo "</div>\n"; echo "<div class=\"row\">\n";}else{echo "<!-- Crazy -->";}
-//cleanyetibasic_logo_image_render();
+<?php
    }
 }
 
