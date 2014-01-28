@@ -7400,3 +7400,9 @@ th.hide-for-touch {
 .touch th.show-for-touch {
   display: table-cell !important;
 }
+
+/* line 4, ../scss/cleanyetibasic-app.scss */
+#footer-credits p {
+  font-size: 67%;
+  color: #666666;
+}

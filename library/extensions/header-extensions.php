@@ -439,7 +439,7 @@ if ( function_exists('childtheme_override_access') )  {
                         <h1><a href="<?php echo esc_url(home_url()); ?>/" title="<?php bloginfo('name'); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
                     </li>
                     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-                    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+                    <li class="toggle-topbar menu-icon"><a href="#"><?php _e( 'Menu', 'cleanyetibasic' ); ?></a></li>
                 </ul>
                 
                 <section class="top-bar-section">
