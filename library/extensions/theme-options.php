@@ -13,7 +13,7 @@ add_action('admin_menu', 'cleanyetibasic_create_menu');
 function cleanyetibasic_create_menu() {
 
 	//create new top-level menu
-	add_menu_page( __( 'Clean Yeti Basic Theme Settings', 'cleanyetibasic' ), __( 'Theme Settings', 'cleanyetibasic' ), 'administrator', __FILE__, 'cleanyetibasic_settings_page' );
+	add_theme_page( __( 'Clean Yeti Basic Theme Settings', 'cleanyetibasic' ), __( 'Theme Settings', 'cleanyetibasic' ), 'administrator', __FILE__, 'cleanyetibasic_settings_page' );
 
 	//call register settings function
 	add_action( 'admin_init', 'register_mysettings' );
