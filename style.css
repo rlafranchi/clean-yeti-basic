@@ -281,3 +281,10 @@ ol#comments-list ul.children {
     margin-bottom: 20px;
     margin-bottom: 1.25em;
 }
+
+/* Admin bar bug for screens less than 600px */
+@media screen and (max-width: 600px) {
+    #wpadminbar {
+        position: fixed;
+    }
+}
