@@ -670,6 +670,34 @@ if (function_exists('childtheme_override_postheader_posteditlink'))  {
 	}
 } // end postheader_posteditlink
 
+if (function_exists('childtheme_override_pageeditlink'))  {
+	/**
+	 * @ignore
+	 */
+	function cleanyetibasic_pageeditlink() {
+		return childtheme_override_pageeditlink(); 
+	}
+} else {
+	/**
+	 * Create the page edit link
+	 * 
+	 * Override: childtheme_override_pageeditlink <br>
+	 * Filter: cleanyetibasic_pageeditlink
+	 */
+	function cleanyetibasic_pageeditlink() {
+
+    	$posteditlink = sprintf( '<a href="%s" title="%s">%s</a>' , 
+
+			    			get_edit_post_link(),
+			    			esc_attr__('Edit page', 'cleanyetibasic'),
+							/* translators: page edit link */
+			    			__('Edit', 'cleanyetibasic'));
+		
+		return apply_filters('cleanyetibasic_pageeditlink', $posteditlink); 
+
+	}
+} // end pageeditlink
+
 
 if (function_exists('childtheme_override_postheader_posttitle'))  {
 	/**

@@ -50,7 +50,7 @@
                                 wp_link_pages();
                             }
 
-	                    	edit_post_link( __( 'Edit', 'cleanyetibasic' ), "\n\t\t\t\t\t\t" . '<span class="edit-link">' , '</span>' . "\n" );
+	                    	echo cleanyetibasic_pageeditlink();
 	                    ?>
 
 					</div><!-- .entry-content -->

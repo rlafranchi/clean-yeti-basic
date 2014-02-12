@@ -53,7 +53,7 @@
                 } else {
                     wp_link_pages();
                 }
-			edit_post_link( __( 'Edit', 'cleanyetibasic' ), '<span class="edit-link">','</span><br>' );
+			echo cleanyetibasic_pageeditlink();
 			?>
 
 					</div>

@@ -1,1 +1,1 @@
-jQuery(document).foundation({topbar: { sticky_class: 'found-sticky'}});
+jQuery(document).foundation({topbar: { sticky_class: 'found-sticky', mobile_show_parent_link: true}});
