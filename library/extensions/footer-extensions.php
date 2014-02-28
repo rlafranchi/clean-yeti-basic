@@ -97,7 +97,8 @@ function cleanyetibasic_copyright() {
         FROM
             $wpdb->posts
         WHERE
-            post_status = 'publish'
+            post_status = 'publish' AND
+            post_date_gmt != '0000-00-00 00:00:00'
     ");
     $output = '';
     if($copyright_dates) {
