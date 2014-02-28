@@ -124,7 +124,7 @@ img {
 }
 
 textarea {
-  height: auto;
+  height: auto !important;
   min-height: 50px;
 }
 
