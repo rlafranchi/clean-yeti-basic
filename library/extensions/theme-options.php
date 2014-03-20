@@ -42,8 +42,9 @@ function cleanyetibasic_settings_page() {
     <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 </form>
 
-<h3><?php _e( 'Serene Themes also accepts Bitcoin donations', 'cleanyetibasic' ); ?></h3>
-<a href="bitcoin:12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY">BTC: 12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY</a>
+<h3><?php _e( 'Serene Themes also accepts Bitcoin and Litecoin donations', 'cleanyetibasic' ); ?>:</h3>
+<a href="bitcoin:12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY">BTC: 12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY</a><br />
+<a href="litecoin:LcYa8MgjJwaP1edxn8qSLwQkMagj4H3P2r">LTC: LcYa8MgjJwaP1edxn8qSLwQkMagj4H3P2r</a>
 
 <h2><?php _e( 'Clean Yeti Basic Theme Options', 'cleanyetibasic' ); ?></h2>
 <form method="post" action="options.php">
