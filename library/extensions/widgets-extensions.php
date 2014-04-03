@@ -213,13 +213,21 @@ add_filter('cleanyetibasic_widgetized_areas', 'cleanyetibasic_sort_widgetized_ar
  */
 
 function cleanyetibasic_container() {
-	global $wp_customize;
+	global $wp_customize, $cleanyetibasic_options;
+    $cleanyetibasic_options = cleanyetibasic_get_options();
+    $sbpos = $cleanyetibasic_options['sidebar_position'];
+    $sbwidth = $cleanyetibasic_options['sidebar_width'];
+    $contentwidth = 12 - $sbwidth;
 	if ( is_page_template( 'template-page-fullwidth.php' )) :
-		$open = '<div id="container" class="large-12 columns">';
-	elseif (is_active_sidebar('primary-aside') || is_active_sidebar('secondary-aside') || ( method_exists ( $wp_customize,'is_preview' ) && $wp_customize->is_preview()  )):
-		$open = '<div id="container" class="large-8 columns">';
+		$open = '<div id="container" class="medium-12 columns">';
+	elseif (is_active_sidebar('primary-aside') || is_active_sidebar('secondary-aside') || ( method_exists ( $wp_customize,'is_preview' ) && $wp_customize->is_preview()  )) :
+		if ( 'left' == $sbpos ) {
+		    $open = '<div id="container" class="medium-' . $contentwidth . ' medium-push-' . $sbwidth . ' columns">';
+		} else {
+		    $open = '<div id="container" class="medium-' . $contentwidth . ' columns">';
+        }
     else:
-        $open = '<div id="container" class="large-12 columns">';
+        $open = '<div id="container" class="medium-12 columns">';
     endif;
     echo apply_filters( 'cleanyetibasic_container', $open );
 }

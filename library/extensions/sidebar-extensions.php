@@ -36,7 +36,16 @@ function cleanyetibasic_sidebar() {
  */
  
 function cleanyetibasic_sidebar_open() {
-    $open = '<div class="large-4 columns">';
+    global $cleanyetibasic_options;
+    $cleanyetibasic_options = cleanyetibasic_get_options();
+    $sbpos = $cleanyetibasic_options['sidebar_position'];
+    $sbwidth = $cleanyetibasic_options['sidebar_width'];
+    $pullwidth = 12 - $sbwidth;
+    if ( 'left' == $sbpos ) {
+        $open = '<div class="medium-' . $sbwidth . ' medium-pull-' . $pullwidth . ' columns">';
+    } else {
+        $open = '<div class="medium-' . $sbwidth . ' columns">';
+    }
     echo apply_filters('cleanyetibasic_sidebar_open', $open);
 }
 add_action( 'cleanyetibasic_abovemainasides', 'cleanyetibasic_sidebar_open', 1);

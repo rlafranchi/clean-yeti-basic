@@ -2,7 +2,7 @@
 THEME NAME: Clean Yeti Basic
 THEME URI: http://cleanyetibasic.serenethemes.com
 DESCRIPTION: The ultimate in responsive themes, Clean Yeti Basic is a highly extensible WordPress Theme that incorporates Foundation 5 by Zurb.  Perfect for any blog and viewable on any device from mobile to desktop.  Find out more about Foundation 5 here: <a href="http://foundation.zurb.com/docs" target="blank">foundation.zurb.com/docs</a>
-VERSION: 2.2.1
+VERSION: 2.3.0
 TAGS: blue, black, white, right-sidebar, responsive-layout, custom-menu, featured-images, full-width-template, microformats, post-formats, threaded-comments
 AUTHOR: Serene Themes
 AUTHOR URI: http://www.serenethemes.com
@@ -20,6 +20,7 @@ Copyright: 2013, ZURB
 License: MIT License - http://www.opensource.org/licenses/mit-license.php
 
 Need support for Foundation 4? Revert to Clean Yeti Basic v1.1.0
+As of version 2.3.0 Clean Yeti Basic has included an scss compiler script to add the ability to customize foundation styles and components with ease
 
 This work, like WordPress, is released under GNU General Public License, version 2 (GPL).
 .
@@ -34,17 +35,17 @@ body {
 }
 
 body {
-    font-family: "Ubuntu", sans-serif;
+    font-family: Ubuntu, Arial, "libra sans", sans-serif;
     font-weight: 300;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: "Ubuntu", sans-serif;
+    font-family: Ubuntu, Arial, "libra sans", sans-serif;
     font-weight: 300;
 }
 
 .keystroke, kbd, code, pre {
-  font-family: "Ubuntu Mono", sans-serif;
+  font-family: 'Ubuntu Mono', sans-serif;
   font-weight: bold;
   color: #373737;
 }
@@ -63,50 +64,12 @@ h1, h2, h3, h4, h5, h6 {
 	float: left !important;
 }
 
-/* pagination */
-ul.page-numbers {
-  display: block;
-  height: 1.5em;
-  margin-left: -0.3125em; }
-  ul.page-numbers li {
-    display: block;
-    float: left;
-    height: 1.5em;
-    color: #222222;
-    font-size: 0.875em;
-    margin-left: 0.3125em; }
-    ul.page-numbers li a {
-      display: block;
-      padding: 0.0625em 0.4375em 0.0625em;
-      color: #999999; }
-    ul.page-numbers li:hover a,
-    ul.page-numbers li a:focus {
-      background: #e6e6e6; }
-    ul.page-numbers li.unavailable a {
-      cursor: default;
-      color: #999999; }
-    ul.page-numbers li.unavailable:hover a, ul.page-numbers li.unavailable a:focus {
-      background: transparent; }
-    ul.page-numbers li span.current {
-      display: block;
-      padding: 0.0625em 0.4375em 0.0625em;
-      background: #2ba6cb;
-      color: white;
-      font-weight: bold;
-      cursor: default; }
-      ul.page-numbers li span.current:hover, ul.page-numbers li span.current:focus {
-        background: #2ba6cb; }
-
 .tabs dd {
     border: 1px solid #e2e2e2;
 }
 
 .accordion .content.active {
     border: 1px solid #e2e2e2;
-}
-
-.accordion dd {
-    border-top: 5px solid #2ba6cb;
 }
 
 .tabs-content .content p, .tabs-content .content .comments-link {
@@ -187,27 +150,8 @@ img.aligncenter {
 	zoom:1;
 }
 
-.sticky {
-
-}
-
 .bypostauthor {
 
-}
-
-i.large {
-    font-size: 7em;
-    color: #2ba6cb;
-    display: block;
-    line-height: 0.9;
-    text-align: center;
-}
-
-i.small {
-    font-size: 4.0em;
-    color: #2ba6cb;
-    line-height: 1.5;
-    text-align: center;
 }
 
 .entry-meta {
@@ -231,55 +175,17 @@ ol#comments-list ul.children {
         list-style-type: none;
 }
 
-
-/* Side Nav */
-.widget_archive ul,
-.widget_recent_entries ul,
-.widget_pages ul,
-.widget_recent_comments ul,
-.widget_meta ul,
-.widget_nav_menu ul,
-.widget_categories ul,
-.widget_rss ul{
-	display: block;
-	margin: 0;
-	padding: 0.875em 0;
-	list-style-type: none;
-	list-style-position: inside; }
-.widget_archive ul li,
-.widget_recent_entries ul li,
-.widget_pages ul li,
-.widget_recent_comments ul li,
-.widget_meta ul li,
-.widget_nav_menu ul li,
-.widget_categories ul li,
-.widget_rss ul li {
-	margin: 0 0 0.4375em 0;
-	font-size: 0.875em; }
-.widget_archive ul li a,
-.widget_recent_entries ul li a,
-.widget_pages ul li a,
-.widget_recent_comments ul li a,
-.widget_meta ul li a,
-.widget_nav_menu ul li a,
-.widget_categories ul li a,
-.widget_rss ul li a {
-	display: block;
-	color: #2ba6cb; }
-.widget_archive ul li a:hover,
-.widget_recent_entries ul li a:hover,
-.widget_pages ul li a:hover,
-.widget_recent_comments ul li a:hover,
-.widget_meta ul li a:hover,
-.widget_nav_menu ul li a:hover,
-.widget_categories ul li a:hover,
-.widget_rss ul li a:hover {
-	color: #2795b6;
-}
-
 #access {
     margin-bottom: 20px;
     margin-bottom: 1.25em;
+}
+
+#footer-credits p {
+    font-size: 67%;
+    color: #666666;
+}
+
+.sticky {
 }
 
 /* Admin bar bug for screens less than 600px */

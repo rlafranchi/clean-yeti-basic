@@ -127,7 +127,7 @@ function cleanyetibasic_show_pingback() {
  *
  * Register Foundation Style
  * Foundation Styles and Scripts bundle:
- * Foundatio 4: http://foundation.zurb.com
+ * Foundation 5: http://foundation.zurb.com
  * Copyright: 2013 ZURB
  * License: MIT http://www.opensource.org/licenses/mit-license.php
  */
@@ -135,9 +135,23 @@ function cleanyetibasic_show_pingback() {
 
 
 function cleanyetibasic_create_stylesheet() {
+	global $wp_customize;
+	if ( isset( $wp_customize ) && $wp_customize->is_preview() ) {
+		$preview = 'preview';
+	} else {
+		$preview = '';
+	}
+
+	$custom_css = get_template_directory() . '/library/Foundation/css/cleanyetibasic' . $preview . '.css';
+
 	wp_register_style( 'cleanyetibasic-ubuntu', 'http://fonts.googleapis.com/css?family=Ubuntu&subset=latin,cyrillic-ext,greek-ext,greek,latin-ext,cyrillic' );
 	wp_register_style( 'cleanyetibasic-ubuntumono', 'http://fonts.googleapis.com/css?family=Ubuntu+Mono' );
-	wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic.css' );
+
+	if ( file_exists( $custom_css ) ) {
+		wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic' . $preview . '.css' );
+	} else {
+		wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic-default.css' );
+	}
 	wp_enqueue_style( 'cleanyetibasic-postformaticons', get_template_directory_uri() . '/library/Foundation/icons/postformaticons.css');
 	wp_enqueue_style( 'cleanyetibasic-style', get_stylesheet_uri(), array( 'cleanyetibasic-ubuntu', 'cleanyetibasic-ubuntumono', 'cleanyetibasic-foundation', 'cleanyetibasic-postformaticons' ) );
 
@@ -163,14 +177,26 @@ if ( function_exists('childtheme_override_head_scripts') )  {
      * @since 1.0
      */
     function cleanyetibasic_head_scripts() {
+        global $cleanyetibasic_options;
+        $cleanyetibasic_options = cleanyetibasic_get_options();
+        $option_parameters = cleanyetibasic_get_option_parameters();
 
 		if ( is_singular() && comments_open() && get_option( 'thread_comments' ) )
 			has_filter( 'cleanyetibasic_show_commentreply' ) ? cleanyetibasic_show_commentreply() : wp_enqueue_script( 'comment-reply' );
 
 		wp_enqueue_script( 'cleanyetibasic-modernizr-js', get_template_directory_uri() . '/library/Foundation/js/modernizr.js', array( 'jquery' ), '2.7.2' );
-		wp_enqueue_script( 'cleanyetibasic-foundation-js', get_template_directory_uri() . '/library/Foundation/js/foundation.min.js', array(), '5.2.1', true );
-        wp_enqueue_script( 'cleanyetibasic-document-js', get_template_directory_uri() . '/library/Foundation/js/document.js', array ( 'cleanyetibasic-foundation-js' ) , '5.2.1', true );
-        wp_enqueue_script( 'cleanyetibasic-custom-js', get_template_directory_uri() . '/library/Foundation/js/foundation.custom.js', array( 'cleanyetibasic-document-js' ), '1.0.0', true);
+		wp_enqueue_script( 'cleanyetibasic-foundation-js', get_template_directory_uri() . '/library/Foundation/js/foundation/foundation.js', array(), '5.2.1', true );
+        wp_enqueue_script( 'cleanyetibasic-foundation-accordion-js', get_template_directory_uri() . '/library/Foundation/js/foundation/foundation.accordion.js', array(), '5.2.1', true );
+        wp_enqueue_script( 'cleanyetibasic-foundation-tabs-js', get_template_directory_uri() . '/library/Foundation/js/foundation/foundation.tab.js', array(), '5.2.1', true );
+        wp_enqueue_script( 'cleanyetibasic-foundation-topbar-js', get_template_directory_uri() . '/library/Foundation/js/foundation/foundation.topbar.js', array(), '5.2.1', true );
+        foreach ( $option_parameters as $option_parameter ) {
+            $section = $option_parameter['section'];
+            $name = $option_parameter['name'];
+            if ( 'javascript' == $section && isset( $cleanyetibasic_options[$name] ) ) {
+                wp_enqueue_script( 'cleanyetibasic-foundation-' . $name . '-js', get_template_directory_uri() . '/library/Foundation/js/foundation/foundation.' . $name . '.js', array(), '5.2.1', true );
+            }
+        }
+        wp_enqueue_script( 'cleanyetibasic-document-js', get_template_directory_uri() . '/library/Foundation/js/document.js', array () , '5.2.1', true );
 	}
 }
 
@@ -248,12 +274,15 @@ class Topbar_Walker_Nav_Menu extends Walker_Nav_Menu {
 }
 
 function cleanyetibasic_nav_menu_args() {
+    global $cleanyetibasic_options;
+    $cleanyetibasic_options = cleanyetibasic_get_options();
+    $menuclass = $cleanyetibasic_options['header_top_bar_menu_position'];
 	$args = array (
 		'theme_location'	=> apply_filters('cleanyetibasic_primary_menu_id', 'primary-menu'),
 		'menu'				=> '',
 		'container'			=> '',
 		'container_class'	=> '',
-		'menu_class'		=> 'right',
+		'menu_class'		=> $menuclass,
 		'fallback_cb'		=> false,
 		'before'			=> '',
 		'after'				=> '',
@@ -337,8 +366,11 @@ if ( function_exists( 'childtheme_override_brandingopen' ) )  {
 	 * Override: childtheme_override_brandingopen
 	 */
     function cleanyetibasic_brandingopen() {
+        global $cleanyetibasic_options;
+        $cleanyetibasic_options = cleanyetibasic_get_options();
+        $align = 'text-' . $cleanyetibasic_options['title_position'];
 		echo '<div class="row">' . "\n";
-		echo "\t<div id=\"branding\" class=\"large-12 columns\">\n";
+		echo "\t<div id=\"branding\" class=\"large-12 columns $align\">\n";
     }
 }
 
@@ -429,14 +461,18 @@ if ( function_exists('childtheme_override_access') )  {
      * 
      * Override: childtheme_override_access
      */    
-    function cleanyetibasic_access() { 
+    function cleanyetibasic_access() {
+    global $cleanyetibasic_options;
+    $cleanyetibasic_options = cleanyetibasic_get_options();
+    $sticky = ( ( 'sticky' == $cleanyetibasic_options['header_top_bar_position'] ) ? ' class="found-sticky"' : '' );
+    $menuclass = $cleanyetibasic_options['header_top_bar_menu_position'];
     ?> 
-        <div id="access">
+        <div id="access"<?php echo $sticky; ?>>
             <nav class="top-bar" data-topbar>
                 <ul class="title-area">
                 <!-- Title Area -->
                     <li class="name">
-                        <h1><a href="<?php echo esc_url(home_url()); ?>/" title="<?php bloginfo('name'); ?>" rel="home"><?php bloginfo('name'); ?></a></h1>
+                        <?php if ( 'true' == $cleanyetibasic_options['display_top_bar_title'] ) : ?><h1><a href="<?php echo esc_url(home_url()); ?>/" title="<?php bloginfo('name'); ?>" rel="home"><?php bloginfo('name'); ?></a></h1><?php endif; ?>
                     </li>
                     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
                     <li class="toggle-topbar menu-icon"><a href="#"><?php _e( 'Menu', 'cleanyetibasic' ); ?></a></li>
@@ -447,7 +483,7 @@ if ( function_exists('childtheme_override_access') )  {
     	if ( ( function_exists("has_nav_menu") ) && ( has_nav_menu( apply_filters('cleanyetibasic_primary_menu_id', 'primary-menu') ) ) ) {
     	    echo  wp_nav_menu(cleanyetibasic_nav_menu_args());
     	} else {
-    	    echo  "<ul class=\"right\">\n";
+    	    echo  "<ul class=\"$menuclass\">\n";
             echo  "<li><a href=\"#\">" . __( 'Primary', 'cleanyetibasic' ) . "</a></li>\n";
             echo  "<li><a href=\"#\">" . __( 'Menu', 'cleanyetibasic' ) . "</a></li>\n";
             echo  "<li><a href=\"#\">" . __( 'Location', 'cleanyetibasic' ) . "</a></li>\n";

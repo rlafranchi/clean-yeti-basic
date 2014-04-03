@@ -100,8 +100,17 @@ function cleanyetibasic_theme_setup() {
 	// attachment extensions helps with displaying videos and images
 	require_once ( CLEANYETIBASIC_LIB . '/extensions/attachment-extensions.php' );
 	
-	// options page and settings
-	require_once ( CLEANYETIBASIC_LIB . '/extensions/theme-options.php' );
+    /**
+     * Theme Options and Customizer API
+     * Based on Oenology WordPress Theme, Copyright (C) 2010-2014 Chip Bennett
+     * @link https://www.github.com/chipbennett/oenology
+     */
+	require_once ( CLEANYETIBASIC_LIB . '/options/options.php' );
+	require_once ( CLEANYETIBASIC_LIB . '/options/options-customizer.php' );
+    require_once ( CLEANYETIBASIC_LIB . '/options/options-filters.php' );
+
+	// scss compiler
+	require_once ( CLEANYETIBASIC_LIB . '/Foundation/scss/scss.php' );
 
 	// Adds filters for the description/meta content in archive templates
 	add_filter( 'archive_meta', 'wptexturize' );
