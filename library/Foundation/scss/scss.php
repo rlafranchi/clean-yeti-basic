@@ -28,6 +28,7 @@ function cleanyetibasic_scss_compile( $preview ) {
         $preview = '';
     }
     file_put_contents( $csspath . 'cleanyetibasic' . $preview . '.css', $css, LOCK_EX);
+    return;
 }
 function cleanyetibasic_scss_compile_save() {
     cleanyetibasic_scss_compile( false );
@@ -36,22 +37,21 @@ if ( isset( $_GET['settings-updated'] ) && isset( $_GET['page'] ) && $_GET['page
     add_action( 'admin_init', 'cleanyetibasic_scss_compile_save' );
 
 
-function cleanyetibasic_scss_compile_preview( $wp_customize ) {
-    if ( isset( $wp_customize ) )
+function cleanyetibasic_scss_compile_preview() {
         cleanyetibasic_scss_compile( true );
-
     // add option that customize.php has been viewed recently
     $option = get_option( 'theme_cleanyetibasic_customize', true );
     update_option( 'theme_cleanyetibasic_customize', true );
+    return;
 }
-add_action( 'customize_preview_init', 'cleanyetibasic_scss_compile_preview' );
+add_action( 'customize_preview_init', 'cleanyetibasic_scss_compile_preview', 1 );
 
 // failsafe incase settings were saved in customize.php
 function cleanyetibasic_scss_compile_wp_head() {
     global $wp_customize, $pagenow;
     $option = get_option( 'theme_cleanyetibasic_customize', true );
-    if ( ! isset( $wp_customize ) && true == $option && 'cusomize.php' != $pagenow ) {
-        cleanyetibasic_scss_compile_save( false );
+    if ( true == $option && ! is_admin() ) {
+        cleanyetibasic_scss_compile_save();
         $option = false;
         update_option( 'theme_cleanyetibasic_customize', $option );
     }

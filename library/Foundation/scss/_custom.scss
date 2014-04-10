@@ -29,7 +29,7 @@ i.small {
 }
 
 .page-numbers {
-    @include pagination(true, $base-styles);
+    @include pagination(true);
 }
 
 ul.page-numbers li span.current {
