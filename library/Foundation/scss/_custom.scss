@@ -53,7 +53,7 @@ ul.page-numbers li span.current:focus {
     @include button($padding:$button-tny, $radius:true);
 }
 
-#main .content img, #footer img {
+#content img, #footer img {
     @extend .th;
 }
 

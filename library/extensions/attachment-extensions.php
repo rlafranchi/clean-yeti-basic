@@ -55,32 +55,40 @@ function cleanyetibasic_attachment_gallery_data() {
         )
     );
     $indexarray  = array();
+    if ( class_exists( 'Jetpack_Media_Summary' ) ) {
+        $summary = Jetpack_Media_Summary::get( $post->ID );
+        $images = $summary['images']; ?>
+            <div class="small-12-cloumns"><ul class="small-block-grid-2 medium-block-grid-4">
+                <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[0]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
+                <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[1]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
+                <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[2]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
+                <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[3]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
+            </ul></div> <?php
+    } else if( isset($attachments[0] ) ) {
 
-    foreach( $attachments as $id => $attachment) {
-        array_push( $indexarray, $id);
-    }
-?>
-            <div class="small-12 columns">
-                <ul class="small-block-grid-4">
-<?php
-    $i = 0;
-    while ( $i <= 3 ) {
-        $imageid   = $indexarray[ $i ];
-        $imagepost = get_post( $imageid );
-        $imgurl    = wp_get_attachment_url( $imageid );
-        $imgalt    = trim(strip_tags( get_post_meta($imageid, '_wp_attachment_image_alt', true) ));
+        foreach( $attachments as $id => $attachment) {
+            array_push( $indexarray, $id);
+        } ?>
+                <div class="small-12 columns">
+                    <ul class="small-block-grid-2 medium-block-grid-4">
+        <?php $i = 0;
+        while ( $i <= 3 ) {
+            $imageid   = $indexarray[ $i ];
+            $imagepost = get_post( $imageid );
+            $imgurl    = wp_get_attachment_url( $imageid );
+            $imgalt    = trim(strip_tags( get_post_meta($imageid, '_wp_attachment_image_alt', true) ));
 
-        if ( false !== $imgurl ):
-?>
-                    <li><a href="<?php echo $posturl;?>"><img src="<?php echo $imgurl; ?>" alt="<?php echo $imgalt; ?>"class="th"></a></li>
-<?php
-        endif;
-        $i++;
+            if ( false !== $imgurl ): ?>
+                        <li><a href="<?php echo $posturl;?>"><img src="<?php echo $imgurl; ?>" alt="<?php echo $imgalt; ?>"class="th" /></a></li>
+            <?php
+            endif;
+            $i++;
+        } ?>
+                    </ul>
+                </div> <?php
+    } else {
+        the_excerpt();
     }
-?>
-                </ul>
-            </div>
-<?php
 }
 
 function cleanyetibasic_image_attachments() {
@@ -106,20 +114,19 @@ function cleanyetibasic_image_attachments() {
     $str1=trim($str1);
     $len=strlen($str1);
     $imgpath=substr_replace(substr($str1, 5, $len), "", -1);
-    if ( $NumberOfPics > 0 ) :
-?>
-        <div class="small-4 columns">
-            <a href='<?php echo get_permalink(); ?>'><img src='<?php echo $imgpath;?>' alt='<?php echo $post->post_title; ?>'/></a>
-        </div>
-        <div class="small-8 columns">
-            <?php the_excerpt(); ?>
-        </div>
-        <?php else : ?>
-        <div class="small-12 columns">
-            <?php the_excerpt(); ?>
-        </div>
-<?php
-    endif;
+        if ( $NumberOfPics > 0 ) { ?>
+                <div class="small-4 columns">
+                    <a href='<?php echo get_permalink(); ?>'><img src='<?php echo $imgpath;?>' alt='<?php echo $post->post_title; ?>'/></a>
+                </div>
+                <div class="small-8 columns">
+                    <?php the_excerpt(); ?>
+                </div>
+                    <?php
+                } else { ?>
+                <div class="small-12 columns">
+                    <?php the_excerpt(); ?>
+                </div>
+            <?php }
 }
 
 function  cleanyetibasic_get_domain($url) {
