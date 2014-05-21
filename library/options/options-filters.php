@@ -36,4 +36,16 @@ function cleanyetibasic_credits() {
     endif;
 }
 add_action( 'cleanyetibasic_footer', 'cleanyetibasic_credits', 999 );
+
+function cleanyetibasic_row_width() {
+    global $cleanyetibasic_options;
+    $cleanyetibasic_options = cleanyetibasic_get_options();
+    $px_width = $cleanyetibasic_options['max_width'];
+    if ( isset( $px_width ) )
+    $rem_width = $px_width / 16;
+    else $rem_width = 65;
+    $output = '<style type="text/css">.row{ max-width: ' . $rem_width . 'rem; }</style>';
+    echo apply_filters( 'cleanyetibasic_row_width', $output );
+}
+add_action( 'wp_head', 'cleanyetibasic_row_width' );
 ?>

@@ -109,9 +109,6 @@ function cleanyetibasic_theme_setup() {
 	require_once ( CLEANYETIBASIC_LIB . '/options/options-customizer.php' );
     require_once ( CLEANYETIBASIC_LIB . '/options/options-filters.php' );
 
-	// scss compiler
-	require_once ( CLEANYETIBASIC_LIB . '/Foundation/scss/scss.php' );
-
 	// Adds filters for the description/meta content in archive templates
 	add_filter( 'archive_meta', 'wptexturize' );
 	add_filter( 'archive_meta', 'convert_smilies' );

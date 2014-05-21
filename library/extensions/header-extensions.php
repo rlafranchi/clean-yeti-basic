@@ -134,21 +134,8 @@ function cleanyetibasic_show_pingback() {
 
 
 function cleanyetibasic_create_stylesheet() {
-	global $wp_customize;
-	if ( isset( $wp_customize ) && $wp_customize->is_preview() ) {
-		$preview = 'preview';
-	} else {
-		$preview = '';
-	}
-
-	$custom_css = get_template_directory() . '/library/Foundation/css/cleanyetibasic' . $preview . '.css';
 	wp_register_style( 'cleanyetibasic-ubuntu', 'http://fonts.googleapis.com/css?family=Ubuntu:400,300,300italic,400italic,700,700italic|Ubuntu+Mono' );
-
-	if ( file_exists( $custom_css ) ) {
-		wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic' . $preview . '.css' );
-	} else {
-		wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic-default.css' );
-	}
+    wp_enqueue_style( 'cleanyetibasic-foundation', get_template_directory_uri() . '/library/Foundation/css/cleanyetibasic.css' );
 	wp_enqueue_style( 'cleanyetibasic-postformaticons', get_template_directory_uri() . '/library/Foundation/icons/postformaticons.css');
 	wp_enqueue_style( 'cleanyetibasic-style', get_stylesheet_uri(), array( 'cleanyetibasic-ubuntu', 'cleanyetibasic-foundation', 'cleanyetibasic-postformaticons' ) );
 

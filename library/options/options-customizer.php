@@ -47,10 +47,21 @@ function cleanyetibasic_register_theme_customizer( $wp_customize ){
 
 	// Add Settings
 	foreach ( $option_parameters as $option_parameter ) {
+		// sanitize callback based on type
+		if ( 'text' == $option_parameter['type'] )
+		    $sanitize = 'cleanyetibasic_sanitize_text';
+        else if ( 'checkbox' == $option_parameter['type'] )
+            $sanitize = 'cleanyetibasic_sanitize_checkbox';
+        else if ( 'radio' == $option_parameter['type'] || 'select' == $option_parameter['type'] )
+            $sanitize = 'cleanyetibasic_sanitize_choices';
+        else if ( 'color-picker' == $option_parameter['type'] )
+            $sanitize = 'sanitize_hex_color';
+		
 		// Add $option_parameter setting
 		$wp_customize->add_setting( 'theme_cleanyetibasic_options[' . $option_parameter['name'] . ']', array(
 			'default'        => $option_parameter['default'],
 			'type'           => 'option',
+			'sanitize_callback' => $sanitize
 		) );
 
 		// Add $option_parameter control
@@ -119,5 +130,37 @@ function cleanyetibasic_register_theme_customizer( $wp_customize ){
 // Settings API options initilization and validation
 add_action( 'customize_register', 'cleanyetibasic_register_theme_customizer' );
 
+/**
+ * Theme customizer sanitize callback for text fields
+ */
 
+function cleanyetibasic_sanitize_text( $input ) {
+    return wp_filter_nohtml_kses( $input );
+}
+
+/**
+ * Theme customizer sanitize callback for checkbox fields
+ */
+function cleanyetibasic_sanitize_checkbox( $input ) {
+    $input = ( ( isset( $input ) && true == $input ) ? true : false );
+    return $input;
+}
+
+/**
+ * Sanitize select and radio fields
+ * @link http://cachingandburning.com/wordpress-theme-customizer-sanitizing-radio-buttons-and-select-lists/
+ *
+ */
+function cleanyetibasic_sanitize_choices( $input, $setting ) {
+    global $wp_customize;
+    $name = preg_replace('/theme_cleanyetibasic_options\[(.*)\]/', '$1', $setting->id);
+    $control = $wp_customize->get_control( 'cleanyetibasic_' . $name );
+    $choices = $control->choices;
+
+    if ( array_key_exists( $input, $choices ) ) {
+        return $input;      
+    } else {
+        return $setting->default;
+    }
+}
 ?>

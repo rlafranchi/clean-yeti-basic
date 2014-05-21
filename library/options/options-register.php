@@ -33,7 +33,6 @@ register_setting(
 	'cleanyetibasic_options_validate' 
 );
 
-register_setting( 'theme_cleanyetibasic_customize', 'theme_cleanyetibasic_customize' );
 /**
  * Theme register_setting() sanitize callback
  * 
@@ -69,7 +68,7 @@ function cleanyetibasic_options_validate( $input ) {
 	}
 	
 	// Determine what tab was input
-	$submittab = 'foundation_settings';	
+	$submittab = cleanyetibasic_get_current_tab();	
 	foreach ( $tabs as $tab ) {
 		$submitname = 'submit-' . $tab['name'];
 		$resetname = 'reset-' . $tab['name'];

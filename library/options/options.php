@@ -41,6 +41,12 @@ function cleanyetibasic_register_options(){
 // Settings API options initilization and validation
 add_action( 'admin_init', 'cleanyetibasic_register_options' );
 
+function cleanyetibasic_get_settings_page_cap() {
+	return 'edit_theme_options';
+}
+// Hook into option_page_capability_{option_page}
+add_action( 'option_page_capability_cleanyetibasic-settings', 'cleanyetibasic_get_settings_page_cap' );
+
 /**
  * Get current settings page tab
  */
@@ -125,6 +131,10 @@ function cleanyetibasic_add_theme_page() {
 	);
 	// load color picker script
 	add_action( 'admin_enqueue_scripts', 'cleanyetibasic_enqueue_settings_scripts');
+	
+	if ( !empty( $cleanyetibasic_settings_page ) )
+	    add_action( "load-{$cleanyetibasic_settings_page}", 'cleanyetibasic_old_options_update' );
+	    //cleanyetibasic_old_options_update();
 }
 // Load the Admin Options page
 add_action( 'admin_menu', 'cleanyetibasic_add_theme_page' );
@@ -156,14 +166,14 @@ function cleanyetibasic_admin_options_page() {
 	?>
 
 	<div class="wrap">
-		<?php cleanyetibasic_get_page_tab_markup(); ?>
-		<?php if ( isset( $_GET['settings-updated'] ) ) {
-    			echo '<div class="updated"><p>';
-				echo __( 'Theme settings updated successfully.', 'cleanyetibasic' );
-				echo '</p></div>';
-		} ?>
+		<?php cleanyetibasic_get_page_tab_markup();
+        if ( isset( $_GET['settings-updated'] ) ) {
+            echo '<div class="updated"><p>';
+            echo __( 'Theme settings updated successfully.', 'cleanyeti' );
+            echo '</p></div>';
+        } ?>
 		<form action="options.php" method="post">
-		<?php 
+		<?php		
 			// Implement settings field security, nonces, etc.
 			settings_fields('theme_cleanyetibasic_options');
 			// Output each settings section, and each
@@ -276,21 +286,11 @@ function cleanyetibasic_get_option_parameters() {
 					'title' => __( 'Right', 'cleanyetibasic' )
 				)
 			),
-			'description' => __( 'Position to dispaly main title below navigation', 'cleanyetibasic' ),
+			'description' => __( 'Position to display main title below navigation.', 'cleanyetibasic' ),
 			'section' => 'header',
 			'tab' => 'general',
 			'since' => '2.3.0',
 			'default' => 'left'
-		),
-		'header_color' => array(
-			'name' => 'header_color',
-			'title' => __( 'Header Color', 'cleanyetibasic' ),
-			'type' => 'color-picker',
-			'description' => __( 'Choose a color to display in the background of the header.', 'cleanyetibasic' ),
-			'section' => 'color',
-			'tab' => 'colors',
-			'since' => '2.3.0',
-			'default' => '#FFFFFF'
 		),
         'header_top_bar_position' => array(
 			'name' => 'header_top_bar_position',
@@ -406,46 +406,6 @@ function cleanyetibasic_get_option_parameters() {
             'tab' => 'general',
             'since' => '2.3.0',
             'default' => '&copy; ' . get_bloginfo('name')
-        ),
-		'footer_color' => array(
-			'name' => 'footer_color',
-			'title' => __( 'Footer Color', 'cleanyetibasic' ),
-			'type' => 'color-picker',
-			'description' => __( 'Choose a color to display in the background of the footer.', 'cleanyetibasic' ),
-			'section' => 'color',
-			'tab' => 'colors',
-			'since' => '2.3.0',
-			'default' => '#FFFFFF'
-		),
-        'primary' => array(
-            'name' => 'primary',
-            'title' => __( 'Primary Color', 'cleanyetibasic' ),
-            'type' => 'color-picker',
-            'description' => __( 'The primary color is the most prevalent.  It will show as links, most buttons, and in pagination.', 'cleanyetibasic' ),
-            'section' => 'color',
-            'tab' => 'colors',
-            'since' => '2.3.0',
-            'default' => '#2ba6cb'
-        ),
-        'secondary' => array(
-            'name' => 'secondary',
-            'title' => __( 'Secondary Color', 'cleanyetibasic' ),
-            'type' => 'color-picker',
-            'description' => __( 'The secondary color is a compliment to the primary color.', 'cleanyetibasic' ),
-            'section' => 'color',
-            'tab' => 'colors',
-            'since' => '2.3.0',
-            'default' => '#e9e9e9'
-        ),
-        'topbar_bg' => array(
-            'name' => 'topbar_bg',
-            'title' => __( 'Top Bar Background Color', 'cleanyetibasic' ),
-            'type' => 'color-picker',
-            'description' => __( 'The background color of the main navigation menu.', 'cleanyetibasic' ),
-            'section' => 'color',
-            'tab' => 'colors',
-            'since' => '2.3.0',
-            'default' => '#333333'
         ),
         'abide' => array(
             'name' => 'abide',
@@ -731,17 +691,6 @@ function cleanyetibasic_get_settings_page_tabs() {
 				)
 			)
 		),
-        'colors' => array(
-			'name' => 'colors',
-			'title' => __( 'Colors', 'cleanyetibasic' ),
-			'sections' => array(
-				'color' => array(
-					'name' => 'color',
-					'title' => __( 'Color Options', 'cleanyetibasic' ),
-					'description' => __( 'Choose from a variety of color options to customize your site.', 'cleanyetibasic' )
-				),
-			)
-		), 
         'foundation_settings' => array(
 			'name' => 'foundation_settings',
 			'title' => __( 'Foundation Settings', 'cleanyetibasic' ),
@@ -798,30 +747,33 @@ function cleanyetibasic_admin_notices($hook_suffix) {
 add_action( 'admin_notices', 'cleanyetibasic_admin_notices' );
 
 function cleanyetibasic_old_options_update() {
-    global $cleanyetibasic_options;
-    $cleanyetibasic_options = cleanyetibasic_get_options();
-    $old_cpopt = get_option( 'cleanyetibasic_copyright_option', 'notset' );
-	$old_cptext = get_option( 'cleanyetibasic_copyright_text', 'notset' );
-	$old_credit = get_option( 'cleanyetibasic_credit', 'notset' );
-	if ( 'notset' != $old_cpopt ) {
-        if ( 1 == $old_cpopt ) {
-	        $cleanyetibasic_options['display_custom_copyright'] = 'true';
-	        update_option( 'theme_cleanyetibasic_options', $cleanyetibasic_options );
+
+	$old_options = array();
+	$old_cpopt   = get_option( 'cleanyetibasic_copyright_option', 'notset' );
+	$old_cptext  = get_option( 'cleanyetibasic_copyright_text',   'notset' );
+	$old_credit  = get_option( 'cleanyetibasic_credit',           'notset' );
+
+	if ( 'notset' !== $old_cpopt ) {
+		delete_option( 'cleanyetibasic_copyright_option' );
+
+		if ( 1 == $old_cpopt )
+			$old_options['display_custom_copyright'] = 'true';
         }
-	    delete_option( 'cleanyetibasic_copyright_option' );
-    }
-	if ( 'notset' != $old_cptext ) {
-	    $cleanyetibasic_options['copyright_text'] = $old_cptext;
-	    update_option( 'theme_cleanyetibasic_options', $cleanyetibasic_options );
-	    delete_option( 'cleanyetibasic_copyright_text' );
-    }
-	if ( 'notset' != $old_credit ) {
-	    if ( 1 == $old_credit ) {
-            $cleanyetibasic_options['display_footer_credit'] = 'true';
-            update_option( 'theme_cleanyetibasic_options', $cleanyetibasic_options );
-	    }
-	    delete_option( 'cleanyetibasic_credit' );
-    }
+
+	if ( 'notset' !== $old_cptext ) {
+		$old_options['copyright_text'] = $old_cptext;
+
+		delete_option( 'cleanyetibasic_copyright_text' );
+	}
+
+	if ( 'notset' !== $old_credit ) {
+		delete_option( 'cleanyetibasic_credit' );
+
+		if ( 1 == $old_credit )
+			$old_options['display_footer_credit'] = 'true';
+	}
+
+	if ( !empty( $old_options ) )
+		update_option( 'theme_cleanyetibasic_options', array_merge( cleanyetibasic_get_options(), $old_options ) );
 }
-add_action( 'admin_menu', 'cleanyetibasic_old_options_update', 9999 );
 ?>

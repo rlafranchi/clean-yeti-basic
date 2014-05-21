@@ -1,7 +1,4 @@
 <?php
-//remove_shortcode( 'gallery', 'gallery_shortcode' );
-//add_shortcode( 'gallery', 'cleanyetibasic_gallery_shortcode_custom' );
-
 /**
  * The Gallery shortcode.
  *
@@ -102,7 +99,7 @@ function cleanyetibasic_gallery_shortcode_custom($attr) {
 
 	$i = 0;
 	foreach ( $attachments as $id => $attachment ) {
-									$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
+		$link = isset($attr['link']) && 'file' == $attr['link'] ? wp_get_attachment_link($id, $size, false, false) : wp_get_attachment_link($id, $size, true, false);
 
 		$output .= "<{$itemtag} class='gallery-item text-center'>";
         $output .=$link;

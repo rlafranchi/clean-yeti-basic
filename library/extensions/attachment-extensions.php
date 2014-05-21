@@ -64,7 +64,7 @@ function cleanyetibasic_attachment_gallery_data() {
                 <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[2]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
                 <li><a href="<?php echo $posturl; ?>"><img src="<?php echo $images[3]['url']; ?>" alt="<?php the_title(); ?>" class="th" /></a></li>
             </ul></div> <?php
-    } else if( isset($attachments[0] ) ) {
+    } else {
 
         foreach( $attachments as $id => $attachment) {
             array_push( $indexarray, $id);
@@ -86,8 +86,6 @@ function cleanyetibasic_attachment_gallery_data() {
         } ?>
                     </ul>
                 </div> <?php
-    } else {
-        the_excerpt();
     }
 }
 
@@ -115,10 +113,10 @@ function cleanyetibasic_image_attachments() {
     $len=strlen($str1);
     $imgpath=substr_replace(substr($str1, 5, $len), "", -1);
         if ( $NumberOfPics > 0 ) { ?>
-                <div class="small-4 columns">
+                <div class="medium-4 columns">
                     <a href='<?php echo get_permalink(); ?>'><img src='<?php echo $imgpath;?>' alt='<?php echo $post->post_title; ?>'/></a>
                 </div>
-                <div class="small-8 columns">
+                <div class="medium-8 columns">
                     <?php the_excerpt(); ?>
                 </div>
                     <?php
@@ -162,7 +160,7 @@ function cleanyetibasic_get_first_video() {
         $content = '<div class="panel radius"><div class="flex-video"><embed src="' . $url[0] . ' type="application/x-shockwave-flash" width="540" height="312" allowscriptaccess="always" allowfullscreen="true" wmode="transparent"></div></div>' . "\n";
     } else {
         $content  = '<h3 class="subheader">' . __( 'Add a Video to The Post!', 'cleanyetibasic') . '</h3>' . "\n";
-        $content .= '<p>' . __( 'Just paste the url of the video on a separate line to display the video.  Hulu, Youtube, Vimeo, and WordpressTV videos are currently supported.', 'cleanyetibasic' ) . '</p>' . "\n";
+        $content .= '<p>' . __( 'Just paste the url of the video on a separate line to display the video.  Hulu, Youtube, Vimeo, and WordPressTV videos are currently supported.', 'cleanyetibasic' ) . '</p>' . "\n";
     }
     return $content;
 }

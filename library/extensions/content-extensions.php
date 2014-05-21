@@ -956,12 +956,12 @@ if (function_exists('childtheme_override_content'))  {
 					$size = apply_filters( 'cleanyetibasic_post_thumb_size' , array(400,300) );
 					$attr = apply_filters( 'cleanyetibasic_post_thumb_attr', array('title'	=> sprintf( esc_attr__('Permalink to %s', 'cleanyetibasic'), the_title_attribute( 'echo=0' ) ), 'class' => 'th' ) );
 					if ( has_post_thumbnail() ) {
-						$post = '<div class="small-8 columns"><p>';
+						$post = '<div class="medium-8 columns"><p>';
 						$post .= get_the_excerpt();
 						$post .='</p>';
 						$post .='</div>';
 						$post = apply_filters('the_excerpt',$post);
-						$post = sprintf('<div class="small-4 columns"><a class="entry-thumb" href="%s" title="%s">%s</a></div>',
+						$post = sprintf('<div class="medium-4 columns"><a class="entry-thumb" href="%s" title="%s">%s</a></div>',
 						get_permalink() ,
 						sprintf( esc_attr__('Permalink to %s', 'cleanyetibasic'), the_title_attribute( 'echo=0' ) ),
 						get_the_post_thumbnail(get_the_ID(), $size, $attr)) . $post;
