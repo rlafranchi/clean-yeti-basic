@@ -685,6 +685,8 @@ if (function_exists('childtheme_override_pageeditlink'))  {
 	 * Filter: cleanyetibasic_pageeditlink
 	 */
 	function cleanyetibasic_pageeditlink() {
+	  
+    if (current_user_can('edit_posts')) {
 
     	$posteditlink = sprintf( '<a href="%s" title="%s">%s</a>' , 
 
@@ -693,8 +695,8 @@ if (function_exists('childtheme_override_pageeditlink'))  {
 							/* translators: page edit link */
 			    			__('Edit', 'cleanyetibasic'));
 		
-		return apply_filters('cleanyetibasic_pageeditlink', $posteditlink); 
-
+		  return apply_filters('cleanyetibasic_pageeditlink', $posteditlink);
+    }
 	}
 } // end pageeditlink
 
