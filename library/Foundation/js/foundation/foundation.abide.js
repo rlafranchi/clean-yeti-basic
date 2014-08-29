@@ -4,7 +4,7 @@
   Foundation.libs.abide = {
     name : 'abide',
 
-    version : '5.3.0',
+    version : '5.4.1',
 
     settings : {
       live_validate : true,
@@ -97,23 +97,21 @@
     validate : function (els, e, is_ajax) {
       var validations = this.parse_patterns(els),
           validation_count = validations.length,
-          form = this.S(els[0]).closest('[data-' + this.attr_name(true) + ']'),
-          settings = form.data(this.attr_name(true) + '-init') || {},
+          form = this.S(els[0]).closest('form'),
           submit_event = /submit/.test(e.type);
 
-      form.trigger('validated').trigger('validated.fndtn.abide');
       // Has to count up to make sure the focus gets applied to the top error
       for (var i=0; i < validation_count; i++) {
         if (!validations[i] && (submit_event || is_ajax)) {
-          if (settings.focus_on_invalid) els[i].focus();
-          form.trigger('invalid').trigger('invalid.fndtn.abide');
-          this.S(els[i]).closest('[data-' + this.attr_name(true) + ']').attr(this.invalid_attr, '');
+          if (this.settings.focus_on_invalid) els[i].focus();
+          form.trigger('invalid');
+          this.S(els[i]).closest('form').attr(this.invalid_attr, '');
           return false;
         }
       }
 
       if (submit_event || is_ajax) {
-        form.trigger('valid').trigger('valid.fndtn.abide');
+        form.trigger('valid');
       }
 
       form.removeAttr(this.invalid_attr);
@@ -143,7 +141,7 @@
       if (this.settings.patterns.hasOwnProperty(pattern) && pattern.length > 0) {
         return [el, this.settings.patterns[pattern], required];
       } else if (pattern.length > 0) {
-        return [el, new RegExp('^'+pattern+'$'), required];
+        return [el, new RegExp(pattern), required];
       }
 
       if (this.settings.patterns.hasOwnProperty(type)) {
@@ -160,7 +158,6 @@
           validations = [],
           form = this.S(el_patterns[0][0]).closest('[data-' + this.attr_name(true) + ']'),
           settings = form.data(this.attr_name(true) + '-init') || {};
-
       while (i--) {
         var el = el_patterns[i][0],
             required = el_patterns[i][2],
@@ -183,40 +180,52 @@
           parent = direct_parent.parent();
         }
 
+        if (validator) {
+          valid = this.settings.validators[validator].apply(this, [el, required, parent]);
+          validations.push(valid);
+        }
+
         if (is_radio && required) {
           validations.push(this.valid_radio(el, required));
         } else if (is_checkbox && required) {
           validations.push(this.valid_checkbox(el, required));
-        } else if (validator) {
-          valid = this.settings.validators[validator].apply(this, [el, required, parent])
-          validations.push(valid);
-
-          if (valid) {
-            this.S(el).removeAttr(this.invalid_attr);
-            parent.removeClass('error');
-          } else {
-            this.S(el).attr(this.invalid_attr, '');
-            parent.addClass('error');
-          }
-
         } else {
 
           if (el_patterns[i][1].test(value) && valid_length ||
             !required && el.value.length < 1 || $(el).attr('disabled')) {
-            this.S(el).removeAttr(this.invalid_attr);
-            parent.removeClass('error');
-            if (label.length > 0 && settings.error_labels) label.removeClass('error');
-
             validations.push(true);
+          } else {
+            validations.push(false);
+          }
+
+          validations = [validations.every(function(valid){return valid;})];
+
+          if(validations[0]){
+            this.S(el).removeAttr(this.invalid_attr);
+            el.setAttribute('aria-invalid', 'false');
+            el.removeAttribute('aria-describedby');
+            parent.removeClass('error');
+            if (label.length > 0 && this.settings.error_labels) {
+              label.removeClass('error').removeAttr('role');
+            }
             $(el).triggerHandler('valid');
           } else {
             this.S(el).attr(this.invalid_attr, '');
-            parent.addClass('error');
-            if (label.length > 0 && settings.error_labels) label.addClass('error');
+            el.setAttribute('aria-invalid', 'true');
 
-            validations.push(false);
+            // Try to find the error associated with the input
+            var errorElem = parent.find('small.error, span.error');
+            var errorID = errorElem.length > 0 ? errorElem[0].id : "";
+            if (errorID.length > 0) el.setAttribute('aria-describedby', errorID);
+
+            // el.setAttribute('aria-describedby', $(el).find('.error')[0].id);
+            parent.addClass('error');
+            if (label.length > 0 && this.settings.error_labels) {
+              label.addClass('error').attr('role', 'alert');
+            }
             $(el).triggerHandler('invalid');
           }
+
         }
       }
 
