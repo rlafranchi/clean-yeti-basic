@@ -724,6 +724,8 @@ function cleanyetibasic_theme_info() {
     $text .= '<h3>' . __( 'Serene Themes also accepts Bitcoin and Litecoin donations', 'cleanyetibasic' ) . ':</h3>';
     $text .= '<a href="bitcoin:12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY">BTC: 12tHYy7GqmrvmHLUk549VSuqKr6no1RXTY</a><br />';
     $text .= '<a href="litecoin:LcYa8MgjJwaP1edxn8qSLwQkMagj4H3P2r">LTC: LcYa8MgjJwaP1edxn8qSLwQkMagj4H3P2r</a>';
+    $text .= '<h3>' . __( 'Github', 'cleanyetibasic' ) . '</h3>';
+    $text .= '<p>' . __( 'Clean Yeti Basic is now on github: ', 'cleanyetibasic' ) . '<a href="http://github.com/rlafranchi/clean-yeti-basic" target="_blank">github.com/rlafranchi/clean-yeti-basic</a></p>';
     return $text;
 }
 
