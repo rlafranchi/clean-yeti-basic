@@ -55,6 +55,8 @@ function cleanyetibasic_theme_setup() {
 
 	add_theme_support( 'post-formats', array( 'aside', 'quote', 'video', 'image', 'gallery' ) );
 
+    add_theme_support( 'title-tag' );
+
 	// Path constants
 	define( 'CLEANYETIBASIC_LIB',  get_template_directory() .  '/library' );
 

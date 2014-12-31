@@ -48,27 +48,17 @@ function cleanyetibasic_create_contenttype() {
     echo apply_filters('cleanyetibasic_create_contenttype', $content);
 }
 
-if ( function_exists('childtheme_override_doctitle') )  {
-	/**
-	 * @ignore
-	 */
-	 function cleanyetibasic_doctitle() {
-    	childtheme_override_doctitle();
-    }
-} else {
-	/**
-	 * Display the content of the title tag
-	 * 
-	 * Override: childtheme_override_doctitle
-	 * Filter: cleanyetibasic_doctitle_separator
-	 *
-	 */
-	function cleanyetibasic_doctitle() {
-        $separator = apply_filters('cleanyetibasic_doctitle_separator', '|');
-        $doctitle = '<title>' . wp_title( $separator, false, 'right' ) . '</title>' . "\n";
-        echo $doctitle;
+/**
+ * title-tag WordPress 4.1
+ */
+if ( ! function_exists( '_wp_render_title_tag' ) ) :
+	function cleanyetibasic_render_title() {
+      ?>
+      <title><?php wp_title( '|', true, 'right' ); ?></title>
+      <?php
 	}
-}
+	add_action( 'wp_head', 'cleanyetibasic_render_title' );
+endif;
 
 /**
  * Display links to RSS feed
