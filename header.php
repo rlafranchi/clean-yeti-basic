@@ -19,7 +19,11 @@
 	cleanyetibasic_create_contenttype();
 
 	// Create the title tag
-	cleanyetibasic_doctitle();
+	// cleanyetibasic_doctitle();
+    $separator = apply_filters('cleanyetibasic_doctitle_separator', '|');
+    ?>
+      <title><?php wp_title( $separator, false, 'right' ); ?></title>
+    <?php
 
 	// Legacy feedlink handling
 	if ( current_theme_supports( 'cleanyetibasic_legacy_feedlinks' ) ) {
